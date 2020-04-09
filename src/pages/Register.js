@@ -22,9 +22,9 @@ export default function Register({ navigation }) {
         }
         
         else{
+            alert("Salvei")
             await SecureStore.setItemAsync('user',email)
             await SecureStore.setItemAsync('password',password)
-            // navigation.navigate('Login')
         }
         navigation.navigate('Login')
 

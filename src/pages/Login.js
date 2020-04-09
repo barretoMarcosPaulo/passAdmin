@@ -13,8 +13,16 @@ export default function Login({ navigation }) {
 
     async function Login() {
 
-        const user = await SecureStore.getItemAsync('user')
+        const userStore = await SecureStore.getItemAsync('user')
+        const passwordStore = await SecureStore.getItemAsync('password')
+        
+        console.log(userStore,passwordStore)
 
+        if(userStore == email && passwordStore==password){
+            navigation.navigate('Home')
+        }else{
+            alert("E-mail e/ou Senha Incorretos")
+        }
     }
 
     function Register(){
@@ -30,7 +38,7 @@ export default function Login({ navigation }) {
             </Text>
 
             <View style={styles.form}>
-                <Text style={styles.label}>E-mail*</Text>
+                <Text style={styles.label}>E-mail <Text style={styles.opacity}>*</Text></Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Seu melhor e-mail"
@@ -42,7 +50,7 @@ export default function Login({ navigation }) {
                     onChangeText={setEmail}
                 />
 
-                <Text style={styles.label}>Senha*</Text>
+                <Text style={styles.label}>Senha <Text style={styles.opacity}>*</Text></Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Informe uma senha segura"
@@ -127,5 +135,8 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         width: 300,
         marginTop: 10
+    },
+    opacity:{
+        color: "gray"
     }
 });
