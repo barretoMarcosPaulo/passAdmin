@@ -1,14 +1,23 @@
 import React, {useState,useEffect} from 'react';
-import {StyleSheet,Image,View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView} from 'react-native'
+import {StyleSheet,Image,View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView,AsyncStorage} from 'react-native'
+
+import * as SecureStore from 'expo-secure-store';
 
 import logo from '../assets/logo-200.png'
+
+
 export default function Login() {
     
     const[email,setEmail] = useState("")
     const[password,setPassword] = useState("")
     
-    function handleSubmit(){
-        alert(password)
+    async function handleSubmit(){
+        if(password.length <= 8){
+            alert("Informe uma senha com mais de 8 caracteres")
+        }else{
+            await SecureStore.setItemAsync('user',email)
+            await SecureStore.setItemAsync('password',password)
+        }
     }
 
     return (
