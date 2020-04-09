@@ -6,18 +6,32 @@ import * as SecureStore from 'expo-secure-store';
 import logo from '../assets/logo-200.png'
 
 
-export default function Login() {
+export default function Register({ navigation }) {
     
     const[email,setEmail] = useState("")
     const[password,setPassword] = useState("")
+    const[password2,setPassword2] = useState("")
     
     async function handleSubmit(){
+        
+        if(password!=password2){
+            alert("As duas senhas não conferem")
+        }
         if(password.length <= 8){
             alert("Informe uma senha com mais de 8 caracteres")
-        }else{
+        }
+        
+        else{
             await SecureStore.setItemAsync('user',email)
             await SecureStore.setItemAsync('password',password)
+            // navigation.navigate('Login')
         }
+        navigation.navigate('Login')
+
+    }
+
+    function Cancel(){
+        navigation.navigate('Login')
     }
 
     return (
@@ -53,11 +67,30 @@ export default function Login() {
                     value={password}
                     onChangeText={setPassword}
                 />
+
+                <Text style={styles.label}>Repetir Senha*</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Repita sua senha segura"
+                    placeholderTextColor="#999"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry={true}
+                    value={password2}
+                    onChangeText={setPassword2}
+                />
+
+                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                    <Text style={styles.text_button}>Cadastrar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.button_back} onPress={Cancel}>
+                    <Text style={styles.text_button}>Cancelar</Text>
+                </TouchableOpacity>
+
             </View>
 
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.text_button}>Cadastrar</Text>
-            </TouchableOpacity>
+
 
         </KeyboardAvoidingView>
     )
@@ -112,5 +145,14 @@ const styles = StyleSheet.create({
     text_button : {
         color: "white",
         fontSize: 17
+    },
+    button_back: {
+        backgroundColor: "#9099A2",
+        height: 42,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 2,
+        width: 300,
+        marginTop: 10
     }
 });
