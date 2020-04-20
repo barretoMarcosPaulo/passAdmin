@@ -6,6 +6,7 @@ import * as SecureStore from 'expo-secure-store';
 import logo from '../assets/logo-200.png'
 import icon_manager from '../assets/icon-lock-2.png'
 import icon_mail from '../assets/email_icon.png'
+import icon_key from '../assets/key.png'
 
 export default function Register({ navigation }) {
 
@@ -63,6 +64,16 @@ export default function Register({ navigation }) {
 
             </TouchableOpacity>
 
+
+            <TouchableOpacity style={[styles.card]}>
+
+                <View style={styles.box_title_card}>
+                    <Text style={styles.title_card}>Senha de Acesso</Text>
+                </View>
+
+                <Image style={styles.icon_card_email} source={icon_key} />
+
+            </TouchableOpacity>
 
         </SafeAreaView>
     )
