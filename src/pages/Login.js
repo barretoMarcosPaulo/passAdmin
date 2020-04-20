@@ -16,25 +16,22 @@ export default function Login({ navigation }) {
 
         async function userIsAuth(){
             await SecureStore.getItemAsync('user') ? setHaveRegister(true) : setHaveRegister(false)
-
-            await SecureStore.deleteItemAsync('user')
-            await SecureStore.deleteItemAsync('password')
+            // await SecureStore.deleteItemAsync('user')
+            // await SecureStore.deleteItemAsync('password')
         }userIsAuth()
 
     },[] )
 
     async function Login() {
 
-        // const userStore = await SecureStore.getItemAsync('user')
-        // const passwordStore = await SecureStore.getItemAsync('password')
+        const userStore = await SecureStore.getItemAsync('user')
+        const passwordStore = await SecureStore.getItemAsync('password')
         
-        // console.log(userStore,passwordStore)
-
-        // if(userStore == email && passwordStore==password){
-        //     navigation.navigate('Home')
-        // }else{
-        //     alert("E-mail e/ou Senha Incorretos")
-        // }
+        if(userStore == email && passwordStore==password){
+            navigation.navigate('Home')
+        }else{
+            alert("E-mail e/ou Senha Incorretos")
+        }
     }
 
     function Register(){
@@ -82,7 +79,7 @@ export default function Login({ navigation }) {
             </TouchableOpacity>
             
 
-            <TouchableOpacity style={styles.button_back} onPress={Register}>
+            <TouchableOpacity style={haveRegister ? styles.hidden:styles.button_back} onPress={Register}>
                 <Text style={styles.text_button}>Cadastrar-se</Text>
             </TouchableOpacity>
 
