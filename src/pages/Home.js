@@ -5,6 +5,7 @@ import * as SecureStore from 'expo-secure-store';
 
 import logo from '../assets/logo-200.png'
 import icon_manager from '../assets/icon-lock-2.png'
+import icon_mail from '../assets/email_icon.png'
 
 export default function Register({ navigation }) {
 
@@ -50,6 +51,19 @@ export default function Register({ navigation }) {
             
             </TouchableOpacity>
 
+
+
+            <TouchableOpacity style={[styles.card]}>
+
+                <View style={styles.box_title_card}>
+                    <Text style={styles.title_card}>Meu E-mail</Text>
+                </View>
+
+                <Image style={styles.icon_card_email} source={icon_mail} />
+
+            </TouchableOpacity>
+
+
         </SafeAreaView>
     )
 }
@@ -69,7 +83,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 30,
         fontWeight: "bold",
-        marginBottom: 60,
+        marginBottom: 30,
         marginTop: 40,
         // display: "none"
     },
@@ -84,6 +98,7 @@ const styles = StyleSheet.create({
         height: 120,
         width: 300,
         borderRadius: 7,
+        marginTop: 30
     },
     
     title_card: {
@@ -102,6 +117,12 @@ const styles = StyleSheet.create({
         width:70,
         resizeMode: "contain",
         marginTop: -20
+    },
+    icon_card_email : {
+        width:70,
+        resizeMode: "contain",
+        marginTop: -80
+        
     }
     
 
