@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Image, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, AsyncStorage } from 'react-native'
+import { StyleSheet, Image, View, Text,Platform,TextInput,SafeAreaView,TouchableOpacity, KeyboardAvoidingView, AsyncStorage } from 'react-native'
 
 import * as SecureStore from 'expo-secure-store';
 
 import logo from '../assets/logo-200.png'
-
+import icon_manager from '../assets/icon-lock-2.png'
 
 export default function Register({ navigation }) {
 
@@ -35,13 +35,22 @@ export default function Register({ navigation }) {
     }
 
     return (
-        <View style={styles.login}>
+        <SafeAreaView style={styles.container}>
             <Text style={styles.title}>
-                <Text style={styles.title_part}>Pass</Text>
-                Admin
+               PassAdmin
             </Text>
 
-        </View>
+            <TouchableOpacity style={ [ styles.card ]}>
+            
+                <View style={styles.box_title_card}>
+                    <Text style={styles.title_card}>Gerenciar Senhas</Text>
+                </View>
+            
+                <Image style={styles.icon_card_manager} source={icon_manager} />
+            
+            </TouchableOpacity>
+
+        </SafeAreaView>
     )
 }
 
@@ -51,58 +60,49 @@ const styles = StyleSheet.create({
         height: 150,
 
     },
-    login: {
+    container: {
         flex: 1,
-        margin: 90,
         // justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: "#1cc470"
     },
     title: {
         fontSize: 30,
-        fontWeight: "bold"
+        fontWeight: "bold",
+        marginBottom: 60,
+        marginTop: 40,
+        // display: "none"
     },
     title_part: {
-        color: "#1cc470"
+        color: "#1cc470",
+        
     },
-    label: {
-        fontWeight: "bold",
-        color: "#444",
-        marginBottom: 8,
-    },
-    form: {
-        alignSelf: "stretch",
-        paddingHorizontal: 30,
-        marginTop: 30
-    },
-    input: {
-        borderWidth: 1,
-        borderColor: "#ddd",
-        paddingHorizontal: 20,
-        fontSize: 16,
-        color: "#444",
-        height: 44,
-        marginBottom: 20,
-        borderRadius: 2
-    },
-    button: {
-        backgroundColor: "#1cc470",
-        height: 42,
-        justifyContent: "center",
+    card : {
+        backgroundColor: "white",
+        // justifyContent: "center",
         alignItems: "center",
-        borderRadius: 2,
-        width: 300
-    },
-    text_button: {
-        color: "white",
-        fontSize: 17
-    },
-    button_back: {
-        backgroundColor: "#9099A2",
-        height: 42,
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 2,
+        height: 120,
         width: 300,
-        marginTop: 10
+        borderRadius: 7,
+    },
+    
+    title_card: {
+        fontSize: 18
+    },
+
+    box_title_card : {
+        paddingTop: 3,
+        paddingBottom: 3,
+        borderBottomWidth: 0.5,
+        width: 300,
+        alignItems: "center",
+        borderBottomColor: "gray"
+    },
+    icon_card_manager : {
+        width:70,
+        resizeMode: "contain",
+        marginTop: -20
     }
+    
+
 });
