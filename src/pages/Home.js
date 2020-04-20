@@ -14,26 +14,12 @@ export default function Register({ navigation }) {
     const [password, setPassword] = useState("")
     const [password2, setPassword2] = useState("")
 
-    async function handleSubmit() {
-
-        if (password != password2) {
-            alert("As duas senhas não conferem")
-        }
-        if (password.length <= 8) {
-            alert("Informe uma senha com mais de 8 caracteres")
-        }
-
-        else {
-            await SecureStore.setItemAsync('user', email)
-            await SecureStore.setItemAsync('password', password)
-            // navigation.navigate('Login')
-        }
-        navigation.navigate('Login')
-
+    function email_change(){
+        navigation.navigate('EmailChange')
     }
 
-    function Cancel() {
-        navigation.navigate('Login')
+    function password_change() {
+        navigation.navigate('PasswordChange')
     }
 
     return (
@@ -54,7 +40,7 @@ export default function Register({ navigation }) {
 
 
 
-            <TouchableOpacity style={[styles.card]}>
+            <TouchableOpacity style={[styles.card]} onPress={email_change}>
 
                 <View style={styles.box_title_card}>
                     <Text style={styles.title_card}>Meu E-mail</Text>
@@ -65,7 +51,7 @@ export default function Register({ navigation }) {
             </TouchableOpacity>
 
 
-            <TouchableOpacity style={[styles.card]}>
+            <TouchableOpacity style={[styles.card]} onPress={password_change}>
 
                 <View style={styles.box_title_card}>
                     <Text style={styles.title_card}>Senha de Acesso</Text>
@@ -89,13 +75,14 @@ const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "#1cc470"
+        backgroundColor: "#3CB371"
     },
     title: {
         fontSize: 30,
         fontWeight: "bold",
         marginBottom: 30,
         marginTop: 40,
+        color: "white"
         // display: "none"
     },
     title_part: {
