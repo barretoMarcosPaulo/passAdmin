@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Image, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, AsyncStorage } from 'react-native'
+import { StyleSheet, Image,Platform, View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView, AsyncStorage } from 'react-native'
 
 import * as SecureStore from 'expo-secure-store';
 
@@ -10,19 +10,31 @@ export default function Login({ navigation }) {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [haveRegister, setHaveRegister] = useState(false)
+
+    useEffect( ()=>{
+
+        async function userIsAuth(){
+            await SecureStore.getItemAsync('user') ? setHaveRegister(true) : setHaveRegister(false)
+
+            await SecureStore.deleteItemAsync('user')
+            await SecureStore.deleteItemAsync('password')
+        }userIsAuth()
+
+    },[] )
 
     async function Login() {
 
-        const userStore = await SecureStore.getItemAsync('user')
-        const passwordStore = await SecureStore.getItemAsync('password')
+        // const userStore = await SecureStore.getItemAsync('user')
+        // const passwordStore = await SecureStore.getItemAsync('password')
         
-        console.log(userStore,passwordStore)
+        // console.log(userStore,passwordStore)
 
-        if(userStore == email && passwordStore==password){
-            navigation.navigate('Home')
-        }else{
-            alert("E-mail e/ou Senha Incorretos")
-        }
+        // if(userStore == email && passwordStore==password){
+        //     navigation.navigate('Home')
+        // }else{
+        //     alert("E-mail e/ou Senha Incorretos")
+        // }
     }
 
     function Register(){
@@ -30,8 +42,8 @@ export default function Login({ navigation }) {
     }
 
     return (
-        <KeyboardAvoidingView behavior="padding" style={styles.login}>
-            <Image style={styles.logo} source={logo} />
+        <KeyboardAvoidingView enable={Platform.OS == "ios"} behavior="{Platform.OS=='ios'? padding: ''}" style={styles.login}>
+            {/* <Image style={styles.logo} source={logo} /> */}
             <Text style={styles.title}>
                 <Text style={styles.title_part}>En</Text>
                 trar
@@ -69,6 +81,7 @@ export default function Login({ navigation }) {
                 <Text style={styles.text_button}>Entrar</Text>
             </TouchableOpacity>
             
+
             <TouchableOpacity style={styles.button_back} onPress={Register}>
                 <Text style={styles.text_button}>Cadastrar-se</Text>
             </TouchableOpacity>
@@ -138,5 +151,8 @@ const styles = StyleSheet.create({
     },
     opacity:{
         color: "gray"
+    },
+    hidden:{
+        display: 'none'
     }
 });

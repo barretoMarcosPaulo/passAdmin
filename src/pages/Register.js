@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {StyleSheet,Image,View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView,AsyncStorage} from 'react-native'
+import { StyleSheet, Image, View,Alert, Text, Platform, TextInput, TouchableOpacity, KeyboardAvoidingView,AsyncStorage} from 'react-native'
 
 import * as SecureStore from 'expo-secure-store';
 
@@ -15,18 +15,18 @@ export default function Register({ navigation }) {
     async function handleSubmit(){
         
         if(password!=password2){
-            alert("As duas senhas não conferem")
+            Alert.alert("Opss!","As duas senhas não conferem")
         }
-        if(password.length <= 8){
-            alert("Informe uma senha com mais de 8 caracteres")
+        else if(password.length <= 7){
+             Alert.alert("Opss!","Informe uma senha com mais de 8 caracteres")
         }
         
         else{
-            alert("Salvei")
+            Alert.alert("Showw!", "Teu cadastro foi realizado com sucesso!")
             await SecureStore.setItemAsync('user',email)
             await SecureStore.setItemAsync('password',password)
+            navigation.navigate('Login')
         }
-        navigation.navigate('Login')
 
     }
 
@@ -35,8 +35,7 @@ export default function Register({ navigation }) {
     }
 
     return (
-        <KeyboardAvoidingView behavior="padding" style={styles.login}>
-            <Image style={styles.logo} source={logo} />
+        <KeyboardAvoidingView enable={Platform.OS == "ios"} behavior="{Platform.OS=='ios'? padding: ''}" style={styles.login}>
             <Text style={styles.title}>
                 <Text style={styles.title_part}>Pass</Text>
                 Admin
