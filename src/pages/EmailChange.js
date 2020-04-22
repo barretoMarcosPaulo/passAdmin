@@ -10,24 +10,28 @@ export default function Register({ navigation }) {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [password2, setPassword2] = useState("")
 
-    async function handleSubmit() {
+    async function changeEmail() {
 
-        if (password != password2) {
-            Alert.alert("Opss!", "As duas senhas não conferem")
+        if(!email){
+            Alert.alert("Oops!", "Informe o seu novo email")
         }
-        else if (password.length <= 7) {
-            Alert.alert("Opss!", "Informe uma senha com mais de 8 caracteres")
+        else if(!password){
+            Alert.alert("Oops!", "Confirme que é você mesmo. Informe sua senha atual!")
         }
+        else{
+            const current_password = await SecureStore.getItemAsync('password')
+            console.log(current_password)
+            if(password == current_password){
+                await SecureStore.deleteItemAsync('user')
+                await SecureStore.setItemAsync('user', email)
+                Alert.alert("Concluido!", `Faça login novamente com o email ${email}`)
+                navigation.navigate('Login')
 
-        else {
-            Alert.alert("Showw!", "Teu cadastro foi realizado com sucesso!")
-            await SecureStore.setItemAsync('user', email)
-            await SecureStore.setItemAsync('password', password)
-            navigation.navigate('Login')
+            }else{
+                Alert.alert("Oops!", "Senha incorreta, é você mesmo?")
+            }
         }
-
     }
 
     function Cancel() {
@@ -40,8 +44,8 @@ export default function Register({ navigation }) {
             <View style={styles.form}>
                 <View style={styles.box_title}>
                     <Text style={styles.title}>
-                        <Text style={styles.title_part}>Pass</Text>
-                        Admin
+                        <Text style={styles.title_part}>Mudar </Text>
+                        E-mail
                     </Text>
                 </View>
 
@@ -58,10 +62,10 @@ export default function Register({ navigation }) {
                 // secureTextEntry={true}
                 />
 
-                <Text style={styles.label}>Senha*</Text>
+                <Text style={styles.label}>Senha Atual*</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Digite sua senha"
+                    placeholder="Digite sua senha atual"
                     placeholderTextColor="#999"
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -71,7 +75,7 @@ export default function Register({ navigation }) {
                 />
 
 
-                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                <TouchableOpacity style={styles.button} onPress={changeEmail}>
                     <Text style={styles.text_button}>Alterar</Text>
                 </TouchableOpacity>
 
@@ -96,7 +100,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#3CB371"
     },
     title: {
-        fontSize: 30,
+        fontSize: 25,
         fontWeight: "bold",
         marginBottom: 40
     },

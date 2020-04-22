@@ -16,8 +16,6 @@ export default function Login({ navigation }) {
 
         async function userIsAuth(){
             await SecureStore.getItemAsync('user') ? setHaveRegister(true) : setHaveRegister(false)
-            // await SecureStore.deleteItemAsync('user')
-            // await SecureStore.deleteItemAsync('password')
         }userIsAuth()
 
     },[] )
