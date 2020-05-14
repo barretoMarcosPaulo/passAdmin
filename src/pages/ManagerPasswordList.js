@@ -16,7 +16,7 @@ export default function Register({ navigation }) {
     pass.password = "11111111111"
     
     function addNewPassword(){
-        navigation.navigation('ManagerPasswordAdd')
+        navigation.navigate('ManagerPasswordAdd')
     }
 
     function cancel(){
@@ -29,11 +29,16 @@ export default function Register({ navigation }) {
                 PassAdmin
             </Text>
             
-            <TouchableOpacity style={styles.newPassword}>
+            <TouchableOpacity style={styles.newPassword} onPress={addNewPassword}>
                 <Text style={styles.textBtnNew}>+Nova</Text>
             </TouchableOpacity>
             
             <ScrollView style={styles.box_passwords_list}>
+                <PasswordList password={pass}></PasswordList>
+                <PasswordList password={pass}></PasswordList>
+                <PasswordList password={pass}></PasswordList>
+                <PasswordList password={pass}></PasswordList>
+                <PasswordList password={pass}></PasswordList>
                 <PasswordList password={pass}></PasswordList>
             </ScrollView>
 
@@ -55,7 +60,7 @@ const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "#3CB371",
+        // backgroundColor: "#3CB371",
         paddingLeft: 20,
         paddingRight: 20,
     },
@@ -64,7 +69,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginBottom: 30,
         marginTop: 40,
-        color: "white"
+        color: "black"
         // display: "none"
     },
     newPassword: {
