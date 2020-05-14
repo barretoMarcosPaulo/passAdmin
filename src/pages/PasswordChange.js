@@ -8,23 +8,28 @@ import logo from '../assets/logo-200.png'
 
 export default function Register({ navigation }) {
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [newPassword1, setNewPassword1] = useState("")
+    const [newPassword2, setNewPassword2] = useState("")
+    const [oldPassword, setOldPassword] = useState("")
 
-    async function changeEmail() {
+    async function changePassword() {
 
-        if (!email) {
-            Alert.alert("Oops!", "Informe o seu novo email")
+        if (!newPassword1 || !newPassword2 || !oldPassword ) {
+            Alert.alert("Oops!", "Favor, preencha todos os campos para alterar sua senha.")
         }
-        else if (!password) {
-            Alert.alert("Oops!", "Confirme que é você mesmo. Informe sua senha atual!")
+        else if (newPassword1 != newPassword2){
+            Alert.alert("Oops!", "Informa a mesma senha no Repetir Nova Senha.")
         }
+        else if (newPassword1.length <= 7){
+            Alert.alert("Oops!", "Informe uma senha com 8 caracteres ou mais.")
+        }
+
         else {
             const current_password = await SecureStore.getItemAsync('password')
-            if (password == current_password) {
-                await SecureStore.deleteItemAsync('user')
-                await SecureStore.setItemAsync('user', email)
-                Alert.alert("Concluido!", `Faça login novamente com o email ${email}`)
+            if (oldPassword == current_password) {
+                await SecureStore.deleteItemAsync('password')
+                await SecureStore.setItemAsync('password', newPassword1)
+                Alert.alert("Concluido!", `Faça login novamente com a nova senha`)
                 navigation.navigate('Login')
 
             } else {
@@ -43,38 +48,49 @@ export default function Register({ navigation }) {
             <View style={styles.form}>
                 <View style={styles.box_title}>
                     <Text style={styles.title}>
-                        <Text style={styles.title_part}>Mudar </Text>
-                        E-mail
+                        <Text style={styles.title_part}>Trocar </Text>
+                        Senha Atual
                     </Text>
                 </View>
 
-                <Text style={styles.label}>E-mail*</Text>
+                <Text style={styles.label}>Nova Senha*</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Digite seu novo email"
+                    placeholder="Digite sua nova senha"
                     placeholderTextColor="#999"
-                    keyboardType="email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    value={email}
-                    onChangeText={setEmail}
-                // secureTextEntry={true}
+                    value={newPassword1}
+                    onChangeText={setNewPassword1}
+                    secureTextEntry={true}
                 />
 
-                <Text style={styles.label}>Senha Atual*</Text>
+                <Text style={styles.label}>Repetir Nova Senha*</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Digite sua senha atual"
+                    placeholder="Repita a sua nova senha"
                     placeholderTextColor="#999"
                     autoCapitalize="none"
                     autoCorrect={false}
                     secureTextEntry={true}
-                    value={password}
-                    onChangeText={setPassword}
+                    value={newPassword2}
+                    onChangeText={setNewPassword2}
                 />
 
 
-                <TouchableOpacity style={styles.button} onPress={changeEmail}>
+                <Text style={styles.label}>Senha Atual*</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Informa a sua senha atual"
+                    placeholderTextColor="#999"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    secureTextEntry={true}
+                    value={oldPassword}
+                    onChangeText={setOldPassword}
+                />
+
+                <TouchableOpacity style={styles.button} onPress={changePassword}>
                     <Text style={styles.text_button}>Alterar</Text>
                 </TouchableOpacity>
 
