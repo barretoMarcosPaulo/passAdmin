@@ -18,7 +18,7 @@ export default function Register({ navigation }) {
             Alert.alert("Opss!","As duas senhas não conferem")
         }
         else if(password.length <= 7){
-             Alert.alert("Opss!","Informe uma senha com mais de 8 caracteres")
+             Alert.alert("Opss!","Informe uma senha com 8 caracteres ou mais")
         }
         
         else{
