@@ -21,7 +21,6 @@ export default function Register({ navigation }) {
         }
         else{
             const current_password = await SecureStore.getItemAsync('password')
-            console.log(current_password)
             if(password == current_password){
                 await SecureStore.deleteItemAsync('user')
                 await SecureStore.setItemAsync('user', email)
@@ -44,7 +43,7 @@ export default function Register({ navigation }) {
             <View style={styles.form}>
                 <View style={styles.box_title}>
                     <Text style={styles.title}>
-                        <Text style={styles.title_part}>Mudar </Text>
+                        <Text style={styles.title_part}>Trocar </Text>
                         E-mail
                     </Text>
                 </View>
