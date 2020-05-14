@@ -14,9 +14,13 @@ export default function Login({ navigation }) {
 
     useEffect( ()=>{
 
-        async function userIsAuth(){
-            await SecureStore.getItemAsync('user') ? setHaveRegister(true) : setHaveRegister(false)
-        }userIsAuth()
+        // async function userIsAuth(){
+        //     await SecureStore.getItemAsync('user') ? setHaveRegister(true) : setHaveRegister(false)
+        // }userIsAuth()
+
+        async function userIsAuth() {
+            await SecureStore.getItemAsync('user') ? navigation.navigate('Home') : setHaveRegister(false)
+        } userIsAuth()
 
     },[] )
 

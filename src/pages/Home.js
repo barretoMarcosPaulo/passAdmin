@@ -22,13 +22,17 @@ export default function Register({ navigation }) {
         navigation.navigate('PasswordChange')
     }
 
+    function list_passwords(){{
+        navigation.navigate('ManagerPasswordList')
+    }}
+
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>
                PassAdmin
             </Text>
 
-            <TouchableOpacity style={ [ styles.card ]}>
+            <TouchableOpacity style={[styles.card]} onPress={list_passwords}>
             
                 <View style={styles.box_title_card}>
                     <Text style={styles.title_card}>Gerenciar Senhas</Text>
