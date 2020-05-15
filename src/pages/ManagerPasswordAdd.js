@@ -10,45 +10,50 @@ export default function Register({ navigation }) {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [password2, setPassword2] = useState("")
 
-    async function handleSubmit() {
+    async function changeEmail() {
 
-        if (password != password2) {
-            Alert.alert("Opss!", "As duas senhas não conferem")
+        if (!email) {
+            Alert.alert("Oops!", "Informe o seu novo email")
         }
-        else if (password.length <= 7) {
-            Alert.alert("Opss!", "Informe uma senha com 8 caracteres ou mais")
+        else if (!password) {
+            Alert.alert("Oops!", "Confirme que é você mesmo. Informe sua senha atual!")
         }
-
         else {
-            Alert.alert("Showw!", "Teu cadastro foi realizado com sucesso!")
-            await SecureStore.setItemAsync('user', email)
-            await SecureStore.setItemAsync('password', password)
-            navigation.navigate('Login')
-        }
+            const current_password = await SecureStore.getItemAsync('password')
+            if (password == current_password) {
+                await SecureStore.deleteItemAsync('user')
+                await SecureStore.setItemAsync('user', email)
+                Alert.alert("Concluido!", `Faça login novamente com o email ${email}`)
+                navigation.navigate('Login')
 
+            } else {
+                Alert.alert("Oops!", "Senha incorreta, é você mesmo?")
+            }
+        }
     }
 
     function Cancel() {
-        navigation.navigate('Login')
+        navigation.navigate('Home')
     }
 
     return (
-        <KeyboardAvoidingView enable={Platform.OS == "ios"} behavior="{Platform.OS=='ios'? padding: ''}" style={styles.login}>
-            <Text style={styles.title}>
-                <Text style={styles.title_part}>Pass</Text>
-                Admin
-            </Text>
+        <KeyboardAvoidingView enable={Platform.OS == "ios"} behavior="{Platform.OS=='ios'? padding: ''}" style={styles.container}>
 
             <View style={styles.form}>
+                <View style={styles.box_title}>
+                    <Text style={styles.title}>
+                        <Text style={styles.title_part}>Adicionar </Text>
+                        Senha
+                    </Text>
+                </View>
+
                 <Text style={styles.label}>E-mail*</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Seu melhor e-mail"
+                    placeholder="Instagram,Facebook,Gmail etc..."
                     placeholderTextColor="#999"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
+                    autoCapitalize="words"
                     autoCorrect={false}
                     value={email}
                     onChangeText={setEmail}
@@ -58,7 +63,7 @@ export default function Register({ navigation }) {
                 <Text style={styles.label}>Senha*</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Informe uma senha segura"
+                    placeholder="Senha para este serviço"
                     placeholderTextColor="#999"
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -67,20 +72,9 @@ export default function Register({ navigation }) {
                     onChangeText={setPassword}
                 />
 
-                <Text style={styles.label}>Repetir Senha*</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Repita sua senha segura"
-                    placeholderTextColor="#999"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    secureTextEntry={true}
-                    value={password2}
-                    onChangeText={setPassword2}
-                />
 
-                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                    <Text style={styles.text_button}>Cadastrar</Text>
+                <TouchableOpacity style={styles.button} onPress={changeEmail}>
+                    <Text style={styles.text_button}>Adicionar</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.button_back} onPress={Cancel}>
@@ -96,22 +90,23 @@ export default function Register({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    logo: {
-        width: 150,
-        height: 150,
 
-    },
-    login: {
+    container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+
     },
     title: {
-        fontSize: 30,
-        fontWeight: "bold"
+        fontSize: 25,
+        fontWeight: "bold",
+        marginBottom: 40
     },
     title_part: {
         color: "#1cc470"
+    },
+    box_title: {
+        alignItems: "center"
     },
     label: {
         fontWeight: "bold",
@@ -119,9 +114,14 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     form: {
-        alignSelf: "stretch",
+        // alignSelf: "stretch",
+        paddingBottom: 20,
+        paddingTop: 20,
         paddingHorizontal: 30,
-        marginTop: 30
+        marginTop: 30,
+        backgroundColor: "white",
+        width: 330,
+        borderRadius: 7,
     },
     input: {
         borderWidth: 1,
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 2,
-        width: 300
+        // width: 300
     },
     text_button: {
         color: "white",
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 2,
-        width: 300,
+        // width: 300,
         marginTop: 10
     }
 });
