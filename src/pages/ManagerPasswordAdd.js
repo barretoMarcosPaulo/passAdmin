@@ -8,28 +8,30 @@ import logo from '../assets/logo-200.png'
 
 export default function Register({ navigation }) {
 
-    const [email, setEmail] = useState("")
+    const [service, setService] = useState("")
     const [password, setPassword] = useState("")
 
-    async function changeEmail() {
+    async function createPasswordStorage(){
+        const passwordStorage = {}
+        await SecureStore.setItemAsync('passwordStorage', JSON.stringify(passwordStorage))
+    }
 
-        if (!email) {
-            Alert.alert("Oops!", "Informe o seu novo email")
-        }
-        else if (!password) {
-            Alert.alert("Oops!", "Confirme que é você mesmo. Informe sua senha atual!")
+    async function addNewPassword() {
+
+        if (!service || !password) {
+            Alert.alert("Oops!", "Preencha todos os campos")
         }
         else {
             const current_password = await SecureStore.getItemAsync('password')
-            if (password == current_password) {
-                await SecureStore.deleteItemAsync('user')
-                await SecureStore.setItemAsync('user', email)
-                Alert.alert("Concluido!", `Faça login novamente com o email ${email}`)
-                navigation.navigate('Login')
+            let passwordStorages = await SecureStore.getItemAsync('passwordStorage')
 
-            } else {
-                Alert.alert("Oops!", "Senha incorreta, é você mesmo?")
-            }
+            // passwordStorage ? addPasswordStorage() : createPasswordStorage()
+            console.log(passwordStorages)
+                // await SecureStore.setItemAsync('user', email)
+                // Alert.alert("Concluido!", `Faça login novamente com o email ${email}`)
+                // navigation.navigate('Login')
+
+            
         }
     }
 
@@ -38,7 +40,7 @@ export default function Register({ navigation }) {
     }
 
     return (
-        <KeyboardAvoidingView enable={Platform.OS == "ios"} behavior="{Platform.OS=='ios'? padding: ''}" style={styles.container}>
+        <KeyboardAvoidingView behavior="padding" style={styles.container}>
 
             <View style={styles.form}>
                 <View style={styles.box_title}>
@@ -46,17 +48,18 @@ export default function Register({ navigation }) {
                         <Text style={styles.title_part}>Adicionar </Text>
                         Senha
                     </Text>
+                <Text style={styles.small}>Aqui você pode adicionar as senhas dos seus aplicativos e ou serviços.</Text>
                 </View>
 
-                <Text style={styles.label}>E-mail*</Text>
+                <Text style={styles.label}>Servico/App*</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Instagram,Facebook,Gmail etc..."
                     placeholderTextColor="#999"
                     autoCapitalize="words"
                     autoCorrect={false}
-                    value={email}
-                    onChangeText={setEmail}
+                    value={service}
+                    onChangeText={setService}
                 // secureTextEntry={true}
                 />
 
@@ -73,7 +76,7 @@ export default function Register({ navigation }) {
                 />
 
 
-                <TouchableOpacity style={styles.button} onPress={changeEmail}>
+                <TouchableOpacity style={styles.button} onPress={addNewPassword}>
                     <Text style={styles.text_button}>Adicionar</Text>
                 </TouchableOpacity>
 
@@ -93,14 +96,15 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        justifyContent: 'center',
+        // justifyContent: 'center',
+        marginTop: 45,
         alignItems: 'center',
 
     },
     title: {
         fontSize: 25,
         fontWeight: "bold",
-        marginBottom: 40
+        marginBottom: 30
     },
     title_part: {
         color: "#1cc470"
@@ -153,5 +157,10 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         // width: 300,
         marginTop: 10
+    },
+    small:{
+        marginBottom:30,
+        textAlign: "left",
+        fontSize: 15
     }
 });
