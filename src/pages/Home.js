@@ -79,14 +79,14 @@ const styles = StyleSheet.create({
         flex: 1,
         // justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "#3CB371"
+        // backgroundColor: "#3CB371"
     },
     title: {
         fontSize: 30,
         fontWeight: "bold",
         marginBottom: 30,
         marginTop: 40,
-        color: "white"
+        color: "black"
         // display: "none"
     },
     title_part: {
@@ -95,12 +95,20 @@ const styles = StyleSheet.create({
     },
     card : {
         backgroundColor: "white",
-        // justifyContent: "center",
         alignItems: "center",
         height: 120,
         width: 300,
         borderRadius: 7,
-        marginTop: 30
+        marginTop: 30,
+        borderTopWidth: 2,
+        borderLeftWidth: 2,
+        borderRightWidth: 2,
+        borderBottomWidth: 2,
+
+        borderLeftColor: "gray",
+        borderTopColor: "gray",
+        borderRightColor: "gray",
+        borderBottomColor: "gray",
     },
     
     title_card: {

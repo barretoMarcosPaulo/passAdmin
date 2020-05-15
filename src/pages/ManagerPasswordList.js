@@ -58,9 +58,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        // justifyContent: 'center',
         alignItems: 'center',
-        // backgroundColor: "#3CB371",
         paddingLeft: 20,
         paddingRight: 20,
     },
@@ -70,7 +68,6 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         marginTop: 40,
         color: "black"
-        // display: "none"
     },
     newPassword: {
         backgroundColor: 'white',
