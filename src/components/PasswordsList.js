@@ -51,10 +51,12 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         display:'flex',
         flexDirection: 'column',
-        padding: 10,
-        borderLeftWidth: 3,
+        padding: 18,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
         borderRadius: 7,
-        // justifyContent: 'center',
         alignItems: 'center'
     },
     box_btns: {
