@@ -11,28 +11,41 @@ export default function Register({ navigation }) {
     const [service, setService] = useState("")
     const [password, setPassword] = useState("")
 
-    async function createPasswordStorage(){
-        const passwordStorage = {}
-        await SecureStore.setItemAsync('passwordStorage', JSON.stringify(passwordStorage))
+    async function createPasswordStorage(newPassword){
+        alert("SOU NOVO")
+        let StoragePasswords = {
+            'storages':[]
+        }
+        StoragePasswords.storages.unshift(newPassword)
+
+        await SecureStore.setItemAsync('StoragePasswords', JSON.stringify(StoragePasswords))        
     }
 
-    async function addNewPassword() {
 
-        if (!service || !password) {
-            Alert.alert("Oops!", "Preencha todos os campos")
+    async function addPasswordStorage(newPassword){
+        alert("NAO SOU NOVO")
+        let StoragePasswords = JSON.parse(await SecureStore.getItemAsync('StoragePasswords'))
+        StoragePasswords.storages.unshift(newPassword)
+        await SecureStore.setItemAsync('StoragePasswords', JSON.stringify(StoragePasswords))
+
+        console.log(StoragePasswords.storages)
+    } 
+
+
+    async function handleSubmit(){
+        if(!service || !password){
+            Alert.alert('Oops!', 'Preencha todos os campos')
+        }else{
+
+            let passwordAdd = {
+                'service':service,
+                'password':password
+            }
+
+            let StoragePasswords = JSON.parse(await SecureStore.getItemAsync('StoragePasswords'))
+            StoragePasswords ? addPasswordStorage(passwordAdd):createPasswordStorage(passwordAdd)
         }
-        else {
-            const current_password = await SecureStore.getItemAsync('password')
-            let passwordStorages = await SecureStore.getItemAsync('passwordStorage')
-
-            // passwordStorage ? addPasswordStorage() : createPasswordStorage()
-            console.log(passwordStorages)
-                // await SecureStore.setItemAsync('user', email)
-                // Alert.alert("Concluido!", `Faça login novamente com o email ${email}`)
-                // navigation.navigate('Login')
-
-            
-        }
+    
     }
 
     function Cancel() {
@@ -40,7 +53,7 @@ export default function Register({ navigation }) {
     }
 
     return (
-        <KeyboardAvoidingView behavior="padding" style={styles.container}>
+        <KeyboardAvoidingView enable={Platform.OS == "ios"} behavior="{Platform.OS=='ios'? padding: ''}" style={styles.container}>
 
             <View style={styles.form}>
                 <View style={styles.box_title}>
@@ -48,25 +61,24 @@ export default function Register({ navigation }) {
                         <Text style={styles.title_part}>Adicionar </Text>
                         Senha
                     </Text>
-                <Text style={styles.small}>Aqui você pode adicionar as senhas dos seus aplicativos e ou serviços.</Text>
+                    <Text style={styles.label_obs}>Você pode salvar a senha dos seus apps e/ou serviços aqui.</Text>
                 </View>
 
-                <Text style={styles.label}>Servico/App*</Text>
+                <Text style={styles.label}>Serviço*</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Instagram,Facebook,Gmail etc..."
+                    placeholder="Email,Facebook,Instagram etc..."
                     placeholderTextColor="#999"
                     autoCapitalize="words"
                     autoCorrect={false}
                     value={service}
                     onChangeText={setService}
-                // secureTextEntry={true}
                 />
 
                 <Text style={styles.label}>Senha*</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Senha para este serviço"
+                    placeholder="Qual a senha desse serviço?"
                     placeholderTextColor="#999"
                     autoCapitalize="none"
                     autoCorrect={false}
@@ -76,7 +88,7 @@ export default function Register({ navigation }) {
                 />
 
 
-                <TouchableOpacity style={styles.button} onPress={addNewPassword}>
+                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                     <Text style={styles.text_button}>Adicionar</Text>
                 </TouchableOpacity>
 
@@ -96,15 +108,20 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        // justifyContent: 'center',
-        marginTop: 45,
+        justifyContent: 'center',
         alignItems: 'center',
 
     },
     title: {
         fontSize: 25,
         fontWeight: "bold",
-        marginBottom: 30
+        marginBottom: 10
+    },
+    label_obs: {
+        fontWeight: "bold",
+        color: "#444",
+        marginBottom: 8,
+        fontSize: 16
     },
     title_part: {
         color: "#1cc470"
@@ -157,10 +174,5 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         // width: 300,
         marginTop: 10
-    },
-    small:{
-        marginBottom:30,
-        textAlign: "left",
-        fontSize: 15
     }
 });
