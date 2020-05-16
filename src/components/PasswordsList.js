@@ -15,7 +15,7 @@ function PasswordList({ password, navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.service}>Instagram </Text>        
+            <Text style={styles.service}>{password.service}</Text>        
             
             
             <View style={styles.box_btns}>

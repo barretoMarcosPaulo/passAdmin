@@ -14,7 +14,15 @@ export default function Register({ navigation }) {
     const pass = new Object()
     pass.service = "Instagram"
     pass.password = "11111111111"
+    const[storage,setStorage] = useState([])
     
+    useEffect(()=>{
+        async function getPasswords(){
+            let StoragePasswords = JSON.parse(await SecureStore.getItemAsync('StoragePasswords'))
+            setStorage(StoragePasswords.storages)
+        }getPasswords()
+
+    },[])
     function addNewPassword(){
         navigation.navigate('ManagerPasswordAdd')
     }
@@ -26,7 +34,7 @@ export default function Register({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.title}>
-                PassAdmin
+                <Text style={styles.txt}>Minhas</Text> Senhas
             </Text>
             
             <TouchableOpacity style={styles.newPassword} onPress={addNewPassword}>
@@ -34,12 +42,7 @@ export default function Register({ navigation }) {
             </TouchableOpacity>
             
             <ScrollView style={styles.box_passwords_list}>
-                <PasswordList password={pass}></PasswordList>
-                <PasswordList password={pass}></PasswordList>
-                <PasswordList password={pass}></PasswordList>
-                <PasswordList password={pass}></PasswordList>
-                <PasswordList password={pass}></PasswordList>
-                <PasswordList password={pass}></PasswordList>
+                {storage.map(password => <PasswordList key={password.service} password={password}></PasswordList> )  }
             </ScrollView>
 
             <TouchableOpacity style={styles.button_back} onPress={cancel}>
@@ -66,7 +69,7 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: "bold",
         marginBottom: 30,
-        marginTop: 40,
+        marginTop: 50,
         color: "black"
     },
     newPassword: {
@@ -95,8 +98,10 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 7,
         alignSelf: 'stretch',
-        marginTop: 30,
-        
+        marginTop: 10,   
+    },
+    txt:{
+        color: '#1cc470'
     }
 
 

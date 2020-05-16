@@ -12,7 +12,6 @@ export default function Register({ navigation }) {
     const [password, setPassword] = useState("")
 
     async function createPasswordStorage(newPassword){
-        alert("SOU NOVO")
         let StoragePasswords = {
             'storages':[]
         }
@@ -23,7 +22,6 @@ export default function Register({ navigation }) {
 
 
     async function addPasswordStorage(newPassword){
-        alert("NAO SOU NOVO")
         let StoragePasswords = JSON.parse(await SecureStore.getItemAsync('StoragePasswords'))
         StoragePasswords.storages.unshift(newPassword)
         await SecureStore.setItemAsync('StoragePasswords', JSON.stringify(StoragePasswords))
@@ -53,7 +51,7 @@ export default function Register({ navigation }) {
     }
 
     function Cancel() {
-        navigation.navigate('Home')
+        navigation.navigate('ManagerPasswordList')
     }
 
     return (
