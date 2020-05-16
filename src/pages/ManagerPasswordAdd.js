@@ -44,6 +44,10 @@ export default function Register({ navigation }) {
 
             let StoragePasswords = JSON.parse(await SecureStore.getItemAsync('StoragePasswords'))
             StoragePasswords ? addPasswordStorage(passwordAdd):createPasswordStorage(passwordAdd)
+
+            Alert.alert('Showw!',  `Quando você esquecer a senha do ${service} o PassAdmin te lembra!`)
+
+            navigation.navigate('ManagerPasswordList')
         }
     
     }
